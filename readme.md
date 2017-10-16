@@ -1,11 +1,12 @@
-#Front End Masters JavaScript Foundations Course
-My work and learning from the JS foundations course that can be found on frontendmasters.
-##Scopes and Closures
+# Front End Masters JavaScript Foundations Course
+My work and learning from the JS foundations course that can be found on frontend masters.
+## Scopes and Closures
 * Nested Scope
 * Hoisting - doesn't actually exist... just a metaphor.
 * Closure
 * Modules
-###Scope - Where to look for things
+
+### Scope - Where to look for things
 What are we looking for? Any variable! Where that variable 'shows up' is where its scope is.
 Javascript is a compiled language. The compilation occurs just before run time. The Javascript process is a minimum of 2 passes of the code.
 For example:
