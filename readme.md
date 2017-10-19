@@ -57,3 +57,17 @@ The reason for strict mode is to make you write code that runs in the fastest wa
 Each file is in its own separate program. The global scope is shared between them but on the code that has "use strict" at the top of it will be processed in strict mode. Beware when gulping code together however.
 
 Use strict can also be used on a function-by-function basis.
+### Named Function Expressions
+Most commonly you see:
+```javascript
+var clickHandler = function() {
+```
+This is referred to as an **anonymous function expression**. Less common is the **named function declaration** which is accessible inside of itself but not in the enclosing scope.
+```javascript
+var keyHandler = function keyHandler() {
+```
+#### What's the difference between the two?
+The named function declaration is better. Why?
+* Provides a reliable self-reference to the function - great for recursion.
+* Easier to debug when it has a name. No more stack traces without function names.
+* More self-documenting code.
