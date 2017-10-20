@@ -71,3 +71,99 @@ The named function declaration is better. Why?
 * Provides a reliable self-reference to the function - great for recursion.
 * Easier to debug when it has a name. No more stack traces without function names.
 * More self-documenting code.
+## IIFE Pattern - Immediately Invoked Function Expression
+consider this code:
+```javascript
+var foo = "foo";
+
+// other code here
+
+var foo = "foo2";
+console.log(foo); // foo2
+
+// other code here
+
+console.log(foo); // foo2 -- oops!
+```
+In this instance, having a second left hand reference (var foo) is not a problem. But the value will be changed. A function declaration can easily fix this:
+```javascript
+var foo = "foo";
+
+// other code here
+
+function bob(){
+    var foo = "foo2";
+    console.log(foo); // foo2
+}
+
+bob();
+
+// other code here
+
+console.log(foo); // foo2 -- oops!
+```
+This is not the best however as the function bob is now in the enclosing scope, we may need this name later! We can use a pattern called an *IIFE* to solve this:
+```javascript
+var foo = "foo";
+
+( function bob(){
+    var foo = "foo2";
+    console.log(foo);
+} )();
+
+console.log(foo); // foo
+```
+having the '()' after the function expressions immediately invokes the function. Variables can also be passed into the function here.
+The IIFE pattern is also useful in loops:
+```javascript
+for (var i = 0; i < 5; i++) {
+    (function IIFE(){
+        var j = i;
+        console.log(j);
+    })();
+    }
+```
+var j is recreated in each run of the for loop.
+## Block Scoping
+The IIFE pattern does have some downsides such as the meaning of the 'return' keyword being changed so a return statement will talk to the IIFE rather than the parent function.
+Consider the following:
+```javascript
+function diff(x,y) {
+    if (x > y) {
+        var tmp = x;
+        x = y;
+        y = tmp;
+    }
+    return y - x;
+}
+```
+The tmp variable is supposed to only be accessible within the if. We are stylistically trying to do this but we have no enforcement. We can use the 'let' keyword for enforcing in this way. The 'let' keyword attaches a variable to the scope of this if rather than the scope of a function. The if statement now has scope in the same way as the function, it didn't without this.
+```javascript
+function diff(x,y) {
+    if (x > y) {
+        let tmp = x;
+        x = y;
+        y = tmp;
+    }
+    return y - x;
+}
+```
+### Explicit Let Block
+Let does not replace var. It just gives us a way of enforcing what we stylistically choose in our code.
+Let can also be used with just curly braces to provide scope in any part of JS code.
+```javascript
+function formatStr(str) {
+    { let prefix, rest;
+        prefix = str.slice( 0, 3);
+        rest = str.slice( 3 );
+        str = prefix.toUpperCase() + rest;
+    }
+    
+    if (/^FOO:/.test( str )) {
+        return str;
+    }
+    
+    return str.slice( 4 );
+}
+```
+* Let keywords can be repeated. An error will be thrown if a let keyword is used twice on a variable *
