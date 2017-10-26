@@ -167,8 +167,12 @@ function formatStr(str) {
 }
 ```
 * Let keywords can be repeated. An error will be thrown if a let keyword is used twice on a variable *
-** See exercise2 here **
+**See exercise2 here**
 ## Hoisting
 variable and function declarations are "Hoisted". Function expressions are not hoisted however. This allows functions to be declared further down in the code and used at any point.
 let variables do hoist however they do not initialise.
-** See exercise3 here **
+**See exercise3 here**
+## Closure
+Closure is the logical conclusion of lexical scope.
+A closure can be removed by removing its references. Unbinding event listeners etc.
+**See exercise4 here**
