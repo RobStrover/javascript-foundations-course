@@ -254,4 +254,7 @@ foo.bar();  // "bar"
 **import** and **export** allows us to express what is public and what isn't.
 Here we consider the file to be the actual model.
 
-This means this pattern is suggesting that we load lots of individual js files into the browser instead of one. 
+This means this pattern is suggesting that we load lots of individual js files into the browser instead of one. **HTTP2** allows us to achieve this with great performance.
+
+It is better with HTTP2 to send lots of smaller resources concurrently. This means there is no good reason to adopt ES6  until you are on HTTP2.
+
