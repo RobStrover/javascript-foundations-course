@@ -176,3 +176,85 @@ let variables do hoist however they do not initialise.
 Closure is the logical conclusion of lexical scope.
 A closure can be removed by removing its references. Unbinding event listeners etc.
 **See exercise4 here**
+## Module Pattern
+What isn't a module?
+This isn't:
+```javascript
+var foo = {
+    o: { bar: "bar" },
+    bar() {
+        console.log(this.o.bar);
+    }
+}
+
+foo.bar();  // "bar"
+```
+We need to hide things that are not necessary to be seen to the outside world. This is **encapsulation**.
+## Module Pattern ##
+### Classic Module Pattern ###
+```javascript
+var foo = (function(){
+    
+    var o = { bar: "bar" };
+    
+    return {
+        bar: function() {
+            console.log(o.bar);
+        }
+    };
+    
+})();
+
+foo.bar();  // "bar"
+```
+In the example above, it is not possible to reference ```foo.o``` because it is not in the return statement. Anything we want to be publicly accessible goes in the return statement. So (as shown) only ```foo.bar();``` will be accessible.
+**The point of the classic module pattern** is to force you to think about the responsibility requirements of the code you write.
+
+**Note** The ```return``` object is anonymous. Only an external reference to foo can reference it. This means no internal access to the public/external function is possible.
+### Classic Module Pattern: Modified ###
+```javascript
+var foo = (function(){
+    var publicAPI = {
+        bar: function(){
+            publicAPI.baz();
+        },
+        baz: function(){
+            console.log("baz");
+        }
+    };
+    return publicAPI;
+})();
+
+foo.bar();  // "baz"
+```
+Creating the publicAPI variable allows us to reference the function internally as well as externally.
+
+There are two implicit characteristics for using the module pattern:
+* There must be an outer enclosing function/scope that runs at least once (see the ending '''();'').
+* There must be at least one internal function which is returned in the public api with closure over the internal state.
+### ES6+ Module Pattern - dedicated syntax for the module pattern
+foo.js
+```javascript
+var o = { bar: "bar" };
+
+export function bar() {
+    return o.bar;
+};
+```
+then
+```javascript
+import { bar } from "bar.js";
+
+bar();  // "bar"
+
+import * as foo from "foo.js";
+
+foo.bar();  // "bar"
+```
+**import** and **export** allows us to express what is public and what isn't.
+Here we consider the file to be the actual model.
+
+This means this pattern is suggesting that we load lots of individual js files into the browser instead of one. **HTTP2** allows us to achieve this with great performance.
+
+It is better with HTTP2 to send lots of smaller resources concurrently. This means there is no good reason to adopt ES6  until you are on HTTP2.
+
