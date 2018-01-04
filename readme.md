@@ -258,3 +258,12 @@ This means this pattern is suggesting that we load lots of individual js files i
 
 It is better with HTTP2 to send lots of smaller resources concurrently. This means there is no good reason to adopt ES6  until you are on HTTP2.
 
+## Object Orientation
+* this keyword
+* Prototypes
+* class{} - ES6
+* "Inheritance" vs "Behaviour Delegation" - OO (Object/Class Orientated) vs OLOO (Objects linked to other objects)
+
+### The this keyword
+* The 'this' keyword is a reference to a function's execution context.
+* It is a dynamic, context driven thing.
